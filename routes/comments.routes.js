@@ -32,10 +32,11 @@ router.get("/:commentId", async (req, res) => {
 // api/comments/post
 router.post("/post", async (req, res) => {
   try {
-    const { username, avatar } = req.body;
+    const { username, avatar, text } = req.body;
     const comment = await new Comment({
       username: username,
       avatar: avatar,
+      text: text,
       postId: new mongoose.Types.ObjectId(),
       userId: new mongoose.Types.ObjectId(),
     });

@@ -8,7 +8,6 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   try {
-    // const comments = await Comment.find({ postID: req.body.postID });
     const users = await User.find({});
     res.json(users);
   } catch (error) {
@@ -24,7 +23,7 @@ router.get("/", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-    // const users = await User.find({});
+
     res.json(user);
   } catch (error) {
     res.status(500).json({
@@ -43,8 +42,8 @@ router.post("/post", async (req, res) => {
       username: username,
       avatar: avatar,
       _id: new mongoose.Types.ObjectId(),
-      followings: new mongoose.Types.ObjectId(),
-      follows: new mongoose.Types.ObjectId(),
+      following: new mongoose.Types.ObjectId(),
+      followers: new mongoose.Types.ObjectId(),
     });
     await user.save();
 
