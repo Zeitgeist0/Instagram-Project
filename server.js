@@ -1,9 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
+const cors = require("cors");
 require("dotenv").config({ path: "pass.env" });
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use("/api/profiles", require("./routes/profiles.routes"));
 app.use("/api/posts", require("./routes/posts.routes"));
