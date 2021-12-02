@@ -13,8 +13,8 @@ const schema = new Schema({
   avatar: {
     type: String,
   },
-  following: [{ type: Types.ObjectId, ref: "Users" }],
-  followers: [{ type: Types.ObjectId, ref: "Users" }],
+  following: [{ type: Types.ObjectId, ref: "User" }],
+  followers: [{ type: Types.ObjectId, ref: "User" }],
 });
 
 module.exports = model("User", schema);

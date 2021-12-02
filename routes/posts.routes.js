@@ -1,24 +1,22 @@
 const { Router } = require("express");
-const mongoose = require("mongoose");
 const Post = require("../models/Post");
-
+const Comment = require("../models/Comment");
 const router = Router();
 
 //api/posts/create/:authorId
 router.post("/create/:authorId", async (req, res) => {
   try {
     const { imageURL, caption } = req.body;
+    console.log(req.body);
     const post = new Post({
       authorID: req.params.authorId,
       imageURL: imageURL,
       caption: caption,
-      likes: new mongoose.Types.ObjectId(),
     });
     await post.save();
 
     res.status(201).json({
       message: "new post has been created",
-      postData: { ...post },
     });
   } catch (error) {
     res.status(500).json({
@@ -27,14 +25,56 @@ router.post("/create/:authorId", async (req, res) => {
     });
   }
 });
+// api/posts/allPosts
+router.get("/allPosts", async (req, res) => {
+  try {
+    Post.find()
+      .populate("authorID")
+      .exec()
+      .then((posts) => {
+        Comment.find()
+          .populate("postID")
+          .populate("userID")
+          .exec()
+          .then((comments) => {
+            const postsList = posts.map(function (post) {
+              const filteredComments = comments.filter(
+                (comment) =>
+                  post._id.toString() === comment.postID._id.toString()
+              );
+              // console.log(filteredComments);
+              const { _id, authorID, imageURL, caption, likes, date } = post;
+              const wholePost = {
+                _id: _id.toString(),
+                authorID: authorID,
+                imageURL: imageURL,
+                caption: caption,
+                likes: likes,
+                date: date,
+                comments: filteredComments,
+              };
+              return wholePost;
+            });
+
+            return res.json(postsList);
+          });
+      });
+  } catch (error) {
+    res.status(500).json({
+      message: "Can't get posts: Something went wrong",
+      errors: error.message,
+    });
+  }
+});
 
 // api/posts/queryByAuthorsID
 router.get("/queryByAuthorsID", async (req, res) => {
   try {
-    const { query } = req.body,
-      posts = await Post.find({ authorID: query });
-
-    res.json(posts);
+    const { query } = req.body;
+    Post.find({ authorID: query })
+      .populate("authorID")
+      .exec()
+      .then((posts) => res.json(posts));
   } catch (error) {
     res.status(500).json({
       message: "Can't get posts: Something went wrong",

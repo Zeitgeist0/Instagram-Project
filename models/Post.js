@@ -3,9 +3,9 @@ const { Schema, model, Types } = require("mongoose");
 const schema = new Schema({
   authorID: {
     type: Types.ObjectId,
-    ref: "Users",
+    ref: "User",
   },
-  imgURL: {
+  imageURL: {
     type: "String",
   },
   caption: {
@@ -15,7 +15,7 @@ const schema = new Schema({
     type: "String",
     default: Date.now,
   },
-  likes: [{ type: Types.ObjectId, ref: "Users" }],
+  likes: [{ type: Types.ObjectId, ref: "User" }],
 });
 
 module.exports = model("Post", schema);

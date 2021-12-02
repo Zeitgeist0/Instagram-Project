@@ -7,8 +7,11 @@ const router = Router();
 // api/comments
 router.get("/", async (req, res) => {
   try {
-    const comments = await Comment.find({});
-    res.json(comments);
+    Comment.find()
+      .populate("postID")
+      .populate("userID")
+      .exec()
+      .then((comments) => res.json(comments));
   } catch (error) {
     res.status(500).json({
       message: "Can't get comments: Something went wrong",
@@ -20,8 +23,11 @@ router.get("/", async (req, res) => {
 // api/comments/:commentId
 router.get("/:commentId", async (req, res) => {
   try {
-    const comment = await Comment.findById(req.params.commentId);
-    res.json(comment);
+    Comment.findById(req.params.commentId)
+      .populate("postID")
+      .populate("userID")
+      .exec()
+      .then((comments) => res.json(comments));
   } catch (error) {
     res.status(500).json({
       message: "Can't get comment: Something went wrong",
@@ -32,13 +38,13 @@ router.get("/:commentId", async (req, res) => {
 // api/comments/post
 router.post("/post", async (req, res) => {
   try {
-    const { username, avatar, text } = req.body;
+    const { postID, userID, username, avatar, text } = req.body;
     const comment = await new Comment({
       username: username,
       avatar: avatar,
       text: text,
-      postId: new mongoose.Types.ObjectId(),
-      userId: new mongoose.Types.ObjectId(),
+      postID: postID,
+      userID: userID,
     });
     await comment.save();
 
