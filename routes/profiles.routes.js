@@ -41,9 +41,6 @@ router.post("/post", async (req, res) => {
       surname: surname,
       username: username,
       avatar: avatar,
-      _id: new mongoose.Types.ObjectId(),
-      following: new mongoose.Types.ObjectId(),
-      followers: new mongoose.Types.ObjectId(),
     });
     await user.save();
 

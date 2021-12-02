@@ -3,11 +3,11 @@ const { Schema, model, Types } = require("mongoose");
 const schema = new Schema({
   postID: {
     type: Types.ObjectId,
-    ref: "Posts",
+    ref: "Post",
   },
   userID: {
     type: Types.ObjectId,
-    ref: "Users",
+    ref: "User",
   },
   username: {
     type: "String",
