@@ -1,0 +1,21 @@
+.header-image {
+  width: 250px;
+  height: 100px;
+}
+
+.header-avatar {
+  border-radius: 50%;
+  width: 75px;
+}
+.header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 150px;
+  margin-left: 150px;
+  align-items: center;
+
+  margin-top: 20px;
+}
