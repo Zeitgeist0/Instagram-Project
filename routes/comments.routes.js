@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 });
 
 // api/comments/:commentId
-router.get("/:commentId", async (req, res) => {
+router.put("/:commentId", async (req, res) => {
   try {
     Comment.findById(req.params.commentId)
       .populate("postID")

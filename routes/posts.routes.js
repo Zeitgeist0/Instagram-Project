@@ -83,4 +83,29 @@ router.get("/queryByAuthorsID", async (req, res) => {
   }
 });
 
+// api/posts/like
+
+router.put("/like", async (req, res) => {
+  try {
+    const { postID } = req.body;
+
+    const post = await Post.findById(postID);
+
+    let { likes } = post;
+    if (!likes[0]) {
+      likes.push(postID);
+    } else {
+      likes.splice(0, 1);
+    }
+    await post.save();
+    res.json({
+      message: `Post succesfully liked`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Can't like post: Something went wrong",
+      errors: error.message,
+    });
+  }
+});
 module.exports = router;
