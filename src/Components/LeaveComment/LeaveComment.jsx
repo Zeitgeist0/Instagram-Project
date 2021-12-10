@@ -1,12 +1,12 @@
 import { useState } from "react";
-
+import "./leaveComment.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const CommentSchema = Yup.object({
   comment: Yup.string()
-    .min(3, "Must be at leaset 3 characters")
-    .required("Required"),
+    .min(2, "Must be at leaset 2 characters")
+    .required("Please enter a comment"),
 });
 
 const LeaveComment = () => {
@@ -29,27 +29,34 @@ const LeaveComment = () => {
       onSubmit={handleFormSubmit}
     >
       {({ isSubmitting }) => (
-        <Form style={{ padding: "40px 20px" }}>
-          <div style={{ padding: "8px" }}>
+        <Form>
+          <div style={{ marginTop: "10px" }}>
             <Field
+              style={{ padding: "10px" }}
+              className="leave-comment"
               name="comment"
               type="comment"
               placeholder="Enter your comment"
             />
             <ErrorMessage
               component="div"
-              style={{ color: "red" }}
+              style={{ color: "red", paddingLeft: "15px" }}
               name="comment"
             />
           </div>
           {formErrors && (
-            <ul style={{ color: "red" }}>
+            <ul
+              className="form-errors"
+              style={{ color: "red", marginTop: "5px" }}
+            >
               {formErrors.map((error) => (
                 <li>{error}</li>
               ))}
             </ul>
           )}
-          <button disabled={isSubmitting}>Leave a comment</button>
+          <button className="comment-button" disabled={isSubmitting}>
+            Leave a comment
+          </button>
         </Form>
       )}
     </Formik>
