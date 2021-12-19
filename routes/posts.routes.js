@@ -42,7 +42,7 @@ router.get("/allPosts", async (req, res) => {
                 (comment) =>
                   post._id.toString() === comment.postID._id.toString()
               );
-
+               
               const { _id, authorID, imageURL, caption, likes, date } = post;
               const wholePost = {
                 _id: _id.toString(),

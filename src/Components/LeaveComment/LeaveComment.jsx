@@ -1,25 +1,23 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./leaveComment.scss";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import postComment from "../../API/postComment"
 const CommentSchema = Yup.object({
   comment: Yup.string()
     .min(2, "Must be at leaset 2 characters")
     .required("Please enter a comment"),
 });
 
-const LeaveComment = () => {
+const LeaveComment = ({postID , updatePosts}) => {
   const [formErrors, setFormErrors] = useState([]);
 
-  const handleFormSubmit = (values, { setSubmitting }) => {
+  const handleFormSubmit = (values , {resetForm})  => {
     setFormErrors([]);
-    // const { email, password } = values;
-
-    // login(email, password)
-    //   .catch((data) => data)
-    //   .then((data) => setFormErrors(data.message))
-    //   .finally(() => setSubmitting(false));
+    const { comment : text  } = values;
+    postComment(postID, text);
+    updatePosts();
+    resetForm();
   };
 
   return (
@@ -54,7 +52,7 @@ const LeaveComment = () => {
               ))}
             </ul>
           )}
-          <button className="comment-button" disabled={isSubmitting}>
+          <button className="comment-button" type="submit" disabled={isSubmitting}>
             Leave a comment
           </button>
         </Form>

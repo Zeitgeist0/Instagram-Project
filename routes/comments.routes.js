@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const mongoose = require("mongoose");
 const Comment = require("../models/Comment");
-
+const User = require("../models/User");
 const router = Router();
 
 // api/comments
@@ -38,7 +38,10 @@ router.put("/:commentId", async (req, res) => {
 // api/comments/post
 router.post("/post", async (req, res) => {
   try {
-    const { postID, userID, username, avatar, text } = req.body;
+    const user = await User.findById("61a4de00e2014bc8af754993");
+    console.log(user);
+    const {userID,username, avatar } = user;
+    const { postID,  text } = req.body;
     const comment = await new Comment({
       username: username,
       avatar: avatar,
@@ -55,6 +58,24 @@ router.post("/post", async (req, res) => {
     res.status(500).json({
       message: "Can't post comment: Something went wrong",
       errors: error.message,
+    });
+  }
+});
+
+//api/comments/remove
+router.delete('/remove', async (req, res) => {
+
+  const { commentID } = req.body;
+
+  try {
+    await Comment.deleteOne({'_id': commentID});
+    res.json({
+      message: `Comment has been removed`
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: "Can't delete post: Something went wrong",
+      errors: error.message
     });
   }
 });

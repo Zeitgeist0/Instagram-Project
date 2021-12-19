@@ -54,4 +54,27 @@ router.post("/post", async (req, res) => {
     });
   }
 });
+// api/profiles/follow
+router.put("/follow", async (req, res) => {
+  try {
+    const { userID } = req.body;
+    const user = await User.findById(userID);
+    let { following } = user;
+    if (!following[0]) {
+      following.push(userID);
+    } else {
+      following.splice(0, 1);
+    }
+    await user.save();
+
+    res.status(201).json({
+      message: "Following action completed",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Can't complete action",
+      errors: error.message,
+    });
+  }
+});
 module.exports = router;
