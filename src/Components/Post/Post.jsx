@@ -36,7 +36,7 @@ export default function Post({ post, updatePosts }) {
         </svg>
       </div>
       <CommentsSection comments={comments} />
-      <LeaveComment postID={postID} />
+      <LeaveComment postID={postID} updatePosts={updatePosts} />
     </div>
   );
 }

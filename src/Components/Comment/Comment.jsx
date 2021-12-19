@@ -1,7 +1,7 @@
 import React from "react";
 import "../Comment/comment.scss";
 export default function Comment({ comment }) {
-  const { username, avatar, text, _id } = comment;
+  const { username, avatar, text,  } = comment;
 
   return (
     <>
