@@ -2,13 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./followersList.scss";
 import followUser from "../../API/followUser";
 export default function FollowersList({ users, title, followed }) {
-  const [followButtonDisabled, setFollowButtonDisabled] = useState(false);
-
-  const handleFollow = (userID) => {
-    followUser(userID);
-
-    setFollowButtonDisabled(true);
-  };
   return (
     <>
       <h2 className="followers-list-title">{title}</h2>
@@ -23,9 +16,8 @@ export default function FollowersList({ users, title, followed }) {
                 </div>
 
                 <button
-                  disabled={followButtonDisabled ? true : ""}
                   className="follow-button"
-                  onClick={() => handleFollow(user._id)}
+                  onClick={() => followUser(user._id)}
                 >
                   {followed ? "Unfollow" : "Follow"}
                 </button>
